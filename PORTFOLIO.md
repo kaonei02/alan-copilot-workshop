@@ -1,73 +1,80 @@
 ![工作坊完成徽章](https://img.shields.io/badge/GitHub_Copilot_實戰工作坊-已完成-1F883D?style=for-the-badge&logo=githubcopilot&logoColor=white)
 
+![Agent Mode](https://img.shields.io/badge/Agent_Mode-已實作-1E2761?style=flat-square)
+![MCP](https://img.shields.io/badge/MCP-已整合-1E2761?style=flat-square)
+![Agentic Workflow](https://img.shields.io/badge/Agentic_Workflow-已建立-1E2761?style=flat-square)
 
-# 待辦清單 Web App 作品集
+# 待辦清單 Web App
 
-這是一個在 GitHub Copilot 實戰工作坊中完成的待辦清單 Web App，旨在展示如何用 Agent Mode、MCP 與 agentic workflow 協助前端開發，並在有限的技術限制下完成一個可運作、可持久化的實用工具。
+在 **GitHub Copilot 實戰工作坊**中完成的純前端待辦清單應用程式。
+整個專案沒有手動撰寫程式碼 —— 全部透過 GitHub Copilot 的 **Agent Mode**、**MCP** 與**自訂 agentic workflow** 完成。
 
-## 線上展示
+## 🌐 線上展示
 
-GitHub Pages 佔位：
-https://kaonei02.github.io/alan-copilot-workshop/
+**https://<你的帳號>.github.io/<你的repo名稱>/**
 
-> 這個網址會在你實際部署後自行替換成正式的 GitHub Pages URL。
+> ⚠️ 請把上面這行換成你自己的 GitHub Pages 網址(Step 5 動手做 B 拿到的那個)。
 
-## 功能
+## ✨ 功能
 
-這個 App 目前提供以下功能：
+- 新增待辦事項,空白內容不會送出
+- 勾選標記完成 / 取消完成,完成的項目會加上刪除線並淡化
+- 刪除單筆待辦事項
+- 底部即時顯示「未完成:N 項」
+- 篩選檢視:全部 / 未完成 / 已完成
+- 深色模式切換,偏好會被記住;未手動切換過時自動跟隨作業系統設定
+- 所有資料存在瀏覽器 `localStorage`,重新整理不會遺失
+- 置中卡片式版面,支援手機螢幕
 
-- 新增待辦事項
-- 刪除單一待辦事項
-- 標記待辦事項為已完成或未完成
-- 顯示未完成項目數量
-- 依照狀態篩選清單：全部、未完成、已完成
-- 在篩選結果為空時顯示清楚的提示訊息
-- 清除所有已完成項目（需確認後再刪除）
-- 使用 localStorage 持久保存待辦資料
-- 支援簡潔的深色模式與亮色模式切換
+## 🛠 技術
 
-## 技術
+| 項目 | 內容 |
+| :--- | :--- |
+| 前端 | HTML5、CSS3、原生 JavaScript(ES2020+) |
+| 框架 / 套件 | **無** —— 沒有 React / Vue / jQuery,沒有 `package.json`,沒有建置流程 |
+| 外部資源 | **無** —— 不引用任何 CDN,可完全離線運作 |
+| 資料儲存 | 瀏覽器 `localStorage` |
+| 主題切換 | CSS 變數 + `prefers-color-scheme` |
+| 部署 | GitHub Pages(靜態託管) |
 
-本專案採用純前端實作，僅使用：
+檔案結構:
 
-- HTML
-- CSS
-- 原生 JavaScript
+```
+index.html    # 版面結構
+styles.css    # 樣式與深淺色主題
+app.js        # 所有互動邏輯與資料存取
+```
 
-技術重點如下：
+## 🤖 開發方式
 
-- 不使用任何框架或第三方套件
-- 不依賴外部 CDN
-- 資料儲存在 browser 的 localStorage 中，讓重新整理後仍能保留狀態
-- 使用 CSS 變數管理主題色與共用樣式，維持一致性的視覺設計
-- 程式邏輯以簡單、可讀的前端腳本形式實作，便於維護與學習
+這個專案的重點不在「做了一個待辦清單」,而在**它是怎麼被做出來的**。
 
-## 開發方式
+| 階段 | 使用的能力 | 做了什麼 |
+| :--- | :--- | :--- |
+| 1 | **Agent Mode** | 給一段完整需求描述,AI 自行規劃並建立 `index.html`、`styles.css`、`app.js` 三個檔案 |
+| 2 | **Agent Mode(多檔修改)** | 一次跨三個檔案加上深色模式與篩選功能;並練習用檢查點與版本控制還原 AI 的錯誤修改 |
+| 3 | **MCP 整合** | 透過 `.vscode/mcp.json` 接上 Microsoft Learn 與 GitHub 兩個 MCP Server,讓 AI 能查詢官方文件、讀取本 repo 的 issue |
+| 4 | **Agentic Workflow** | 建立 `.github/copilot-instructions.md`(專案規範)與 `.github/prompts/fix-issue.prompt.md`(任務劇本),讓 AI 能自動讀 issue → 開分支 → 修改 → 開 Pull Request |
+| 5 | **結業** | 合併 AI 開出的 PR、部署到 GitHub Pages |
 
-這個專案是依照 GitHub Copilot 實戰工作坊的流程完成的，主要涵蓋三種協作方式：
+值得一提的是第 4 階段:**修好一個 issue 的完整流程被寫成一份 Markdown 檔**,
+所以修第二個 issue 時,只需要輸入 `/fix-issue issueNumber=4` —— AI 會自己讀 issue、提出計畫、改程式、開 PR。
 
-1. GitHub Copilot Agent Mode
-   - 透過自然語言指令生成前端結構與互動邏輯
-   - 讓開發者可以在較短時間內建立可運作的原型
+相關檔案:
 
-2. MCP（Model Context Protocol）
-   - 連接 GitHub Issue 與 Microsoft Learn 文件資源
-   - 讓 AI 能直接閱讀 issue 要求、查詢官方文件，並將資訊轉成符合專案需求的修正方案
+- [`.github/copilot-instructions.md`](.github/copilot-instructions.md) —— 專案通則,每次對話自動帶入
+- [`.github/prompts/fix-issue.prompt.md`](.github/prompts/fix-issue.prompt.md) —— 可重複執行的任務劇本
+- [`.vscode/mcp.json`](.vscode/mcp.json) —— MCP Server 設定
+- [`CHANGELOG.md`](CHANGELOG.md) —— 功能變更紀錄
 
-3. .github/prompts 的 agentic workflow
-   - 使用固定的 prompt 腳本來定義修正 issue 的流程：讀 issue → 提出計畫 → 建分支 → 修改程式 → 驗證 → 提交 → 開 PR
-   - 這種方式讓問題處理流程更一致，也有助於降低人工步驟造成的遺漏
+## 💡 我學到什麼
 
-這個專案的重點不在於複雜技術堆疊，而是在有限範圍內透過 AI 協作提升開發效率並保留工程可控性。
+1. **Agent Mode 和自動補完是完全不同的東西。** 你給的是目標,不是步驟 —— AI 會自己決定要開哪些檔案、執行什麼指令,遇到錯誤會回頭修正。
+2. **提示詞寫得越完整,結果越好,而且更省。** 一次把規格交辦清楚,遠勝過來回追問十次。
+3. **MCP 打開了 AI 的視野。** 沒有 MCP,AI 只看得到本機檔案;有了 MCP,它能查最新的官方文件、讀我 GitHub 上的 issue。
+4. **會反悔比會生成更重要。** 檢查點、工作區捨棄、版本控制回退 —— 知道怎麼還原,才敢放手讓 AI 做事。
+5. **把流程寫下來才會變成資產。** 好的提示詞留在聊天記錄裡就消失了;寫成 repo 裡的檔案,才能版控、被審查、被整個團隊重複使用。
 
-## 我學到什麼
+## 📄 授權
 
-- 如何把自然語言需求轉成可執行的前端功能
-- GitHub Copilot 在工程流程中的實際協作方式，不只是寫程式，也能協助分析問題與驗證修正
-- MCP 能將 AI 的資訊來源擴展到官方文件與專案 issue，讓決策更有依據
-- Agentic workflow 能把重複性的開發步驟整理成可重複執行的流程
-- 在純前端專案中，維持簡潔架構與良好使用者體驗，同樣重要，甚至比引入更多技術更值得優先考慮
-
----
-
-這份作品集文件反映的是一個以學習為主、以實作為核心的前端專案，重視清楚需求、穩定功能與可驗證成果，而非過度包裝或誇大技術表現。
+MIT
