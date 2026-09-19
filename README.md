@@ -2,6 +2,8 @@
 
 # 🎉 Congratulations kaonei02! 🎉
 
+[作品集說明](PORTFOLIO.md)
+
 <img src="https://octodex.github.com/images/welcometocat.png" height="200px" />
 
 ### 🌟 You've successfully completed the exercise! 🌟
