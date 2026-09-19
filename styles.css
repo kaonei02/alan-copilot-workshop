@@ -169,6 +169,39 @@ input {
   font-size: 0.95rem;
 }
 
+.todo-footer-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.clear-completed-btn {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted-color);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.clear-completed-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+  border-color: color-mix(in srgb, var(--primary-color) 30%, var(--border-color));
+  color: var(--primary-color);
+}
+
+.clear-completed-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.clear-completed-btn[hidden] {
+  display: none;
+}
+
 @media (max-width: 420px) {
   .todo-card {
     padding: 18px 14px 16px;

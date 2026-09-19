@@ -7,6 +7,7 @@ const todoInput = document.getElementById('todo-input');
 const todoList = document.getElementById('todo-list');
 const todoCount = document.getElementById('todo-count');
 const emptyState = document.getElementById('empty-state');
+const clearCompletedButton = document.getElementById('clear-completed-btn');
 
 // 讀取 localStorage 中的資料，若不存在則回傳空陣列
 function loadTodos() {
@@ -28,6 +29,13 @@ function saveTodos(todos) {
 function updateTodoCount(todos) {
   const remainingCount = todos.filter((todo) => !todo.completed).length;
   todoCount.textContent = `未完成: ${remainingCount} 項`;
+}
+
+// 判斷是否需要顯示「清除已完成」按鈕
+function updateClearCompletedButton(todos) {
+  const hasCompletedTodos = todos.some((todo) => todo.completed);
+  clearCompletedButton.hidden = !hasCompletedTodos;
+  clearCompletedButton.disabled = !hasCompletedTodos;
 }
 
 // 依照目前待辦清單內容渲染畫面
@@ -61,6 +69,7 @@ function renderTodos() {
   }
 
   updateTodoCount(todos);
+  updateClearCompletedButton(todos);
 }
 
 // 將使用者輸入內容轉成安全字串，避免 HTML 注入
@@ -120,6 +129,25 @@ function deleteTodo(todoId) {
   renderTodos();
 }
 
+// 清除所有已完成的待辦事項，並提供確認對話框
+function clearCompletedTodos() {
+  const todos = loadTodos();
+  const completedTodos = todos.filter((todo) => todo.completed);
+
+  if (completedTodos.length === 0) {
+    return;
+  }
+
+  const confirmed = window.confirm('確定要清除所有已完成項目嗎？');
+  if (!confirmed) {
+    return;
+  }
+
+  const remainingTodos = todos.filter((todo) => !todo.completed);
+  saveTodos(remainingTodos);
+  renderTodos();
+}
+
 // 監聽新增表單提交事件
  todoForm.addEventListener('submit', addTodo);
 
@@ -144,6 +172,8 @@ function deleteTodo(todoId) {
     }
   }
 });
+
+clearCompletedButton.addEventListener('click', clearCompletedTodos);
 
 // 初始渲染，讓頁面一載入就顯示目前儲存的資料
 renderTodos();
