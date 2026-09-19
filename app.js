@@ -12,6 +12,7 @@ const todoInput = document.getElementById('todo-input');
 const todoList = document.getElementById('todo-list');
 const todoCount = document.getElementById('todo-count');
 const emptyState = document.getElementById('empty-state');
+const clearCompletedButton = document.getElementById('clear-completed-btn');
 const filterButtons = document.querySelectorAll('.filter-btn');
 let currentFilter = FILTERS.all;
 
@@ -71,6 +72,13 @@ function updateFilterButtons() {
   });
 }
 
+// 判斷是否需要顯示「清除已完成」按鈕
+function updateClearCompletedButton(todos) {
+  const hasCompletedTodos = todos.some((todo) => todo.completed);
+  clearCompletedButton.hidden = !hasCompletedTodos;
+  clearCompletedButton.disabled = !hasCompletedTodos;
+}
+
 // 依照目前待辦清單內容渲染畫面
 function renderTodos() {
   const todos = loadTodos();
@@ -105,6 +113,7 @@ function renderTodos() {
 
   updateTodoCount(todos);
   updateFilterButtons();
+  updateClearCompletedButton(todos);
 }
 
 // 將使用者輸入內容轉成安全字串，避免 HTML 注入
@@ -164,6 +173,25 @@ function deleteTodo(todoId) {
   renderTodos();
 }
 
+// 清除所有已完成的待辦事項，並提供確認對話框
+function clearCompletedTodos() {
+  const todos = loadTodos();
+  const completedTodos = todos.filter((todo) => todo.completed);
+
+  if (completedTodos.length === 0) {
+    return;
+  }
+
+  const confirmed = window.confirm('確定要清除所有已完成項目嗎？');
+  if (!confirmed) {
+    return;
+  }
+
+  const remainingTodos = todos.filter((todo) => !todo.completed);
+  saveTodos(remainingTodos);
+  renderTodos();
+}
+
 // 切換當前篩選狀態
 function changeFilter(filter) {
   currentFilter = filter;
@@ -171,10 +199,10 @@ function changeFilter(filter) {
 }
 
 // 監聽新增表單提交事件
- todoForm.addEventListener('submit', addTodo);
+todoForm.addEventListener('submit', addTodo);
 
 // 監聽待辦清單事件，處理勾選與刪除按鈕
- todoList.addEventListener('click', (event) => {
+todoList.addEventListener('click', (event) => {
   const deleteButton = event.target.closest('.delete-btn');
   if (deleteButton) {
     const item = deleteButton.closest('.todo-item');
@@ -185,7 +213,7 @@ function changeFilter(filter) {
   }
 });
 
- todoList.addEventListener('change', (event) => {
+todoList.addEventListener('change', (event) => {
   const checkbox = event.target.closest('.todo-checkbox');
   if (checkbox) {
     const item = checkbox.closest('.todo-item');
@@ -200,6 +228,8 @@ filterButtons.forEach((button) => {
     changeFilter(button.dataset.filter);
   });
 });
+
+clearCompletedButton.addEventListener('click', clearCompletedTodos);
 
 // 初始渲染，讓頁面一載入就顯示目前儲存的資料
 renderTodos();
