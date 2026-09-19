@@ -23,6 +23,18 @@
           <button id="add-btn" type="submit">新增</button>
         </form>
 
+        <div class="filter-group" role="group" aria-label="待辦事項篩選">
+          <button type="button" class="filter-btn is-active" data-filter="all">
+            全部
+          </button>
+          <button type="button" class="filter-btn" data-filter="active">
+            未完成
+          </button>
+          <button type="button" class="filter-btn" data-filter="completed">
+            已完成
+          </button>
+        </div>
+
         <ul id="todo-list" class="todo-list" aria-live="polite"></ul>
 
         <p id="empty-state" class="empty-state" hidden>
